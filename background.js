@@ -38,15 +38,15 @@ function ajustaPagina() {
       case '5000061':
         servico = 'Fonoaudiologia';
         break;
-      // case '20103220':
-      // case '20103441':
-      // case '20103484':
-      // case '20103492':
-      // case '20103506':
-      // case '20103514':
-      // case '20103662':
-      // servico = 'Fonoaudiologia';
-      //break;
+        // case '20103220':
+        // case '20103441':
+        // case '20103484':
+        // case '20103492':
+        // case '20103506':
+        // case '20103514':
+        // case '20103662':
+        // servico = 'Fonoaudiologia';
+        //break;
       default:
         if (linha.cells[7].innerHTML.substr(0, 4) == '2010')
           servico = 'Fisioterapia';
@@ -107,46 +107,60 @@ function ajustaPagina() {
    * Adiciona nova coluna na tabela de produção e gera link para o formulario
    */
   function adicionaLinkTabela() {
-    var table = document.getElementById(ID_TAB_UNIMED_PRODUCAO);
-    // Verifica se tem um table e se tem mais de uma linha
-    if (table != null && table.rows.length > 1) {
 
-      var linhas = table.rows;
+    //testa se e o relatorio de producao
+    var x = document.getElementsByClassName("nomeSistemaH3");
 
-      //Add the header row.
-      var novaCelula = linhas[0].insertCell(-1);
-      var headerCell = document.createElement("TH");
-      headerCell.setAttribute("id", "idTitulo");
-      headerCell.innerHTML = "Link Cadastro";
-      novaCelula.appendChild(headerCell);
-      adicionaSelectProfissional();
+    if (x[1].innerText == 'Relatório Produção') {
 
-      for (let index = 1; index < linhas.length; index++) {
-        const linha = linhas[index];
+      var table = document.getElementById(ID_TAB_UNIMED_PRODUCAO);
+      // Verifica se tem um table e se tem mais de uma linha
+      if (table != null && table.rows.length > 1) {
 
-        //adiciona link para aprovados
-        if (linha.cells[5].innerHTML == 'Aprovado') {
-          var novaCelula = linha.insertCell(-1);
-          novaCelula.id = 'link' + index;
-          var a = geraLinkFormulario(linha);
-          novaCelula.appendChild(a);
-        } else {
-          var novaCelula = linha.insertCell(-1);
-          var headerCell = document.createElement("TH");
-          headerCell.innerHTML = linha.cells[5].innerHTML;
-          novaCelula.appendChild(headerCell);
+        var linhas = table.rows;
+
+        //Add the header row.
+        var novaCelula = linhas[0].insertCell(-1);
+        var headerCell = document.createElement("TH");
+        headerCell.setAttribute("id", "idTitulo");
+        headerCell.innerHTML = "Link Cadastro";
+        novaCelula.appendChild(headerCell);
+        adicionaSelectProfissional();
+
+        for (let index = 1; index < linhas.length; index++) {
+          const linha = linhas[index];
+
+          //adiciona link para aprovados
+          if (linha.cells[5].innerHTML == 'Aprovado') {
+            var novaCelula = linha.insertCell(-1);
+            novaCelula.id = 'link' + index;
+            var a = geraLinkFormulario(linha);
+            novaCelula.appendChild(a);
+          } else {
+            var novaCelula = linha.insertCell(-1);
+            var headerCell = document.createElement("TH");
+            headerCell.innerHTML = linha.cells[5].innerHTML;
+            novaCelula.appendChild(headerCell);
+          }
+
         }
-
       }
-    }
+    } else alert('Esse plug-in somente executa no Relatório de Produção!');
+
   }
+
+
+
+
   //chama adicionar link
   adicionaLinkTabela();
 }
 
 chrome.action.onClicked.addListener((tab) => {
   chrome.scripting.executeScript({
-    target: { tabId: tab.id },
+    target: {
+      tabId: tab.id
+    },
     function: ajustaPagina
   });
 });
