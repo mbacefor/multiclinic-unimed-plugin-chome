@@ -2,8 +2,8 @@
   "name": "MultiClinic",
   "action": {},
   "manifest_version": 3,
-  "version": "1.0",
-  "description": "Plug-in Chrome que facilita o registro de procedimentos da Unimed Fortaleza",
+  "version": "1.1",
+  "description": "Plug-in Chrome que auxilia o registro de procedimentos da Unimed Fortaleza",
   "permissions": [
     "activeTab",
     "scripting"
